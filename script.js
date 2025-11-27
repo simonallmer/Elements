@@ -23,7 +23,8 @@ let state = {
     forcedShape: null, // If Elements card was played
     turnPhase: 'play', // 'play' or 'pass'
     cardsPlayedThisTurn: 0,
-    currentChoice: { color: null, shape: null } // Tracks current turn's constraint
+    currentChoice: { color: null, shape: null }, // Tracks current turn's constraint
+    sortMode: 'shape' // 'color' or 'shape' (starts as 'shape' so first click becomes 'color')
 };
 
 // --- DOM Elements ---
@@ -50,6 +51,8 @@ const ui = {
     cardCountDisplay: document.getElementById('card-count-display'),
     messageArea: document.getElementById('message-area'),
     passButton: document.getElementById('btn-pass-turn'),
+    drawCardsBtn: document.getElementById('btn-draw-cards'),
+    sortHandBtn: document.getElementById('btn-sort-hand'),
     elementsModal: document.getElementById('elements-modal'),
     nextPlayerName: document.getElementById('next-player-name'),
     pauseStats: document.getElementById('pause-stats'),
@@ -86,7 +89,9 @@ function init() {
     });
 
     ui.drawPile.addEventListener('click', drawCardsAction);
+    ui.drawCardsBtn.addEventListener('click', drawCardsAction);
     ui.passButton.addEventListener('click', endTurn);
+    ui.sortHandBtn.addEventListener('click', sortHand);
 
     ui.passDeviceBtn.addEventListener('click', startTurn);
 
@@ -497,16 +502,132 @@ function resolveElementsCard(color, shape) {
 
 function drawCardsAction() {
     // "Draw 3 cards and skip your turn. The direction of the game changes."
-    // "It is possible to draw 3 cards... at will"
 
-    for (let i = 0; i < 3; i++) {
+    // Check if deck has enough cards
+    if (state.deck.length === 0) {
+        endGameByEmptyDeck();
+        return;
+    }
+
+    // Disable interactions during animation
+    ui.drawPile.style.pointerEvents = 'none';
+    ui.drawCardsBtn.disabled = true;
+
+    // Animate 3 cards
+    let cardsToDraw = Math.min(3, state.deck.length);
+    let completedAnimations = 0;
+
+    for (let i = 0; i < cardsToDraw; i++) {
+        setTimeout(() => {
+            animateDrawCard(() => {
+                completedAnimations++;
+                if (completedAnimations === cardsToDraw) {
+                    // All animations done, execute logic
+                    finishDrawTurn(cardsToDraw);
+                }
+            });
+        }, i * 200); // Stagger animations
+    }
+}
+
+function animateDrawCard(callback) {
+    const cardEl = document.createElement('div');
+    cardEl.className = 'flying-card';
+
+    // Start position (Draw Pile)
+    const startRect = ui.drawPile.getBoundingClientRect();
+    cardEl.style.top = `${startRect.top}px`;
+    cardEl.style.left = `${startRect.left}px`;
+
+    document.body.appendChild(cardEl);
+
+    // End position (Player Hand - roughly center or specific slot if we calculated it, but center is fine for "hand")
+    // Let's aim for the center of the hand area
+    const handRect = ui.playerHand.getBoundingClientRect();
+    const endTop = handRect.top + (handRect.height / 2) - (startRect.height / 2);
+    const endLeft = handRect.left + (handRect.width / 2) - (startRect.width / 2);
+
+    // Force reflow
+    cardEl.offsetHeight;
+
+    // Animate
+    cardEl.style.top = `${endTop}px`;
+    cardEl.style.left = `${endLeft}px`;
+    cardEl.style.transform = `scale(0.5) rotate(${Math.random() * 30 - 15}deg)`; // Shrink slightly as it enters hand
+    cardEl.style.opacity = '0'; // Fade out at the end
+
+    setTimeout(() => {
+        cardEl.remove();
+        if (callback) callback();
+    }, 800); // Match CSS transition time
+}
+
+function finishDrawTurn(count) {
+    for (let i = 0; i < count; i++) {
         if (state.deck.length > 0) {
             state.players[state.currentPlayer].push(state.deck.pop());
         }
     }
 
     state.direction *= -1;
+
+    // Re-enable interactions
+    ui.drawPile.style.pointerEvents = 'auto';
+    ui.drawCardsBtn.disabled = false;
+
     endTurn();
+}
+
+function sortHand() {
+    const hand = state.players[state.currentPlayer];
+
+    // Toggle Sort Mode
+    state.sortMode = state.sortMode === 'color' ? 'shape' : 'color';
+
+    // Feedback
+    ui.messageArea.textContent = `Sorted by ${state.sortMode.toUpperCase()}`;
+    setTimeout(() => ui.messageArea.textContent = "", 1500);
+
+    hand.sort((a, b) => {
+        // 1. Elements Cards always last
+        if (a.type === CARD_TYPES.ELEMENTS && b.type !== CARD_TYPES.ELEMENTS) return 1;
+        if (a.type !== CARD_TYPES.ELEMENTS && b.type === CARD_TYPES.ELEMENTS) return -1;
+        if (a.type === CARD_TYPES.ELEMENTS && b.type === CARD_TYPES.ELEMENTS) return 0;
+
+        // 2. Sort based on Mode
+        if (state.sortMode === 'color') {
+            // "Single Cards (no color) coming first" -> color === 'none'
+            const colorA = a.color === 'none' ? ' ' : a.color; // Space comes before letters
+            const colorB = b.color === 'none' ? ' ' : b.color;
+
+            if (colorA < colorB) return -1;
+            if (colorA > colorB) return 1;
+
+            // Secondary sort by shape
+            const shapeA = a.shape === 'none' ? ' ' : a.shape;
+            const shapeB = b.shape === 'none' ? ' ' : b.shape;
+            if (shapeA < shapeB) return -1;
+            if (shapeA > shapeB) return 1;
+        } else {
+            // Sort by Shape
+            // "Single Cards (no shape) coming first" -> shape === 'none'
+            const shapeA = a.shape === 'none' ? ' ' : a.shape; // Space comes before letters
+            const shapeB = b.shape === 'none' ? ' ' : b.shape;
+
+            if (shapeA < shapeB) return -1;
+            if (shapeA > shapeB) return 1;
+
+            // Secondary sort by color
+            const colorA = a.color === 'none' ? ' ' : a.color;
+            const colorB = b.color === 'none' ? ' ' : b.color;
+            if (colorA < colorB) return -1;
+            if (colorA > colorB) return 1;
+        }
+
+        return 0;
+    });
+
+    renderGame();
 }
 
 function endTurn() {

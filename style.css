@@ -98,6 +98,23 @@ h2 {
     color: var(--text-color);
 }
 
+/* Controls Area Layout */
+.controls-area {
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.left-controls,
+.right-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
 /* Buttons */
 button {
     font-family: var(--font-main);
@@ -663,6 +680,29 @@ button {
     padding: 8px 20px;
     font-size: 0.9rem;
     border-width: 1px;
+}
+
+.btn-secondary.small {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Flying Card Animation */
+.flying-card {
+    position: fixed;
+    width: var(--card-width);
+    height: var(--card-height);
+    background: #111;
+    border-radius: 8px;
+    background-image: url('card_back.png');
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #333;
+    z-index: 1000;
+    pointer-events: none;
+    transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .message-area {
