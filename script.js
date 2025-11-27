@@ -728,6 +728,13 @@ function renderGame() {
     } else {
         ui.messageArea.textContent = "";
     }
+
+    // Disable Draw 3 button if cards have been played this turn
+    if (state.cardsPlayedThisTurn > 0) {
+        ui.drawCardsBtn.disabled = true;
+    } else {
+        ui.drawCardsBtn.disabled = false;
+    }
 }
 
 function createCardElement(card, isHand) {

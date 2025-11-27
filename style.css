@@ -218,6 +218,16 @@ button {
     transform: translateY(-2px);
 }
 
+.btn-action:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+    border-color: #555;
+    color: #888;
+}
+
 .btn-icon svg {
     width: 24px;
     height: 24px;
