@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Elements - Simon Allmer Games</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Zen+Tokyo+Zoo&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="app">
+        <!-- Main Menu -->
+        <section id="main-menu" class="screen active">
+            <div class="logo-container">
+                <h1 class="game-title">ELEMENTS</h1>
+                <div class="subtitle">要素</div>
+            </div>
+
+            <div class="menu-buttons">
+                <button id="btn-start-game" class="btn-primary">START GAME</button>
+                <button id="btn-rules" class="btn-secondary">RULES</button>
+                <a href="https://simonallmer.com" class="btn-secondary" style="text-decoration: none;">BACK TO SA</a>
+            </div>
+            <div class="copyright">© 2023-2026 Simon Allmer Entertainment</div>
+        </section>
+
+        <!-- Player Count Selection -->
+        <section id="player-setup" class="screen hidden">
+            <h2>SELECT PLAYERS</h2>
+            <div class="player-count-selector">
+                <button class="btn-count" data-count="2">2</button>
+                <button class="btn-count" data-count="3">3</button>
+                <button class="btn-count" data-count="4">4</button>
+                <button class="btn-count" data-count="5">5</button>
+                <button class="btn-count" data-count="6">6</button>
+            </div>
+            <button id="btn-back-menu" class="btn-text">BACK</button>
+        </section>
+
+        <!-- Pass Device Screen -->
+        <section id="pass-device" class="screen hidden">
+            <div class="pass-content">
+                <h2>PASS DEVICE TO</h2>
+                <h3 id="next-player-name">PLAYER 2</h3>
+                <button id="btn-ready" class="btn-primary">I AM READY</button>
+            </div>
+        </section>
+
+        <!-- Game Board -->
+        <section id="game-board" class="screen hidden">
+            <div class="game-header">
+                <div class="player-info">
+                    <span id="current-player-display">PLAYER 1</span>
+                    <span id="card-count-display">Cards: 8</span>
+                </div>
+                <button id="btn-menu-game" class="btn-icon" aria-label="Menu">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor"
+                            d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z" />
+                    </svg>
+                </button>
+                </button>
+            </div>
+
+            <div id="opponents-stats" class="opponents-stats">
+                <!-- Opponent stats injected here -->
+            </div>
+
+            <div class="play-area">
+                <div class="deck-area">
+                    <div id="draw-pile" class="card-stack">
+                        <div class="card-back"></div>
+                    </div>
+                    <div id="discard-pile" class="card-stack">
+                        <!-- Top card goes here -->
+                    </div>
+                </div>
+                <div id="message-area" class="message-area"></div>
+            </div>
+
+            <div class="hand-area">
+                <div id="player-hand" class="hand-scroll">
+                    <!-- Cards go here -->
+                </div>
+            </div>
+
+            <div class="controls-area">
+                <button id="btn-pass-turn" class="btn-action hidden">END TURN</button>
+            </div>
+        </section>
+
+        <!-- Rules Modal -->
+        <section id="rules-screen" class="screen hidden">
+            <div class="rules-content">
+                <h2>RULES</h2>
+                <div class="rules-text">
+                    <p><strong>GOAL:</strong> Free your hand of all cards.</p>
+                    <p><strong>GAMEPLAY:</strong> Match the shape or color of the top card. Once you pick a shape or
+                        color, you must stick to it for that turn.</p>
+                    <p><strong>DRAWING:</strong> If you can't play, draw 3 cards and skip your turn. The direction
+                        reverses.</p>
+
+                    <h3 style="margin-top: 20px; margin-bottom: 10px; color: #fff;">CARD TYPES</h3>
+
+                    <div class="rule-item">
+                        <p><strong>Regular Card:</strong> A Card with two characteristics, Shape and Color.</p>
+                        <div class="card-example">
+                            <div class="card blue">
+                                <div class="card-face">
+                                    <div class="card-inner"></div>
+                                    <div class="corner-pip corner-top-right"><svg viewBox="0 0 100 100"
+                                            class="shape-svg">
+                                            <circle cx="50" cy="50" r="40" />
+                                        </svg></div>
+                                    <div class="center-shape"><svg viewBox="0 0 100 100" class="shape-svg">
+                                            <circle cx="50" cy="50" r="40" />
+                                        </svg></div>
+                                    <div class="corner-pip corner-bottom-left"><svg viewBox="0 0 100 100"
+                                            class="shape-svg">
+                                            <circle cx="50" cy="50" r="40" />
+                                        </svg></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rule-item">
+                        <p><strong>Single Card:</strong> A Card with only one characteristic, Shape or Color.</p>
+                        <div class="card-example">
+                            <div class="card white">
+                                <div class="card-face">
+                                    <div class="card-inner"></div>
+                                    <div class="corner-pip corner-top-right"><svg viewBox="0 0 100 100"
+                                            class="shape-svg">
+                                            <polygon points="50,15 15,85 85,85" />
+                                        </svg></div>
+                                    <div class="center-shape"><svg viewBox="0 0 100 100" class="shape-svg">
+                                            <polygon points="50,15 15,85 85,85" />
+                                        </svg></div>
+                                    <div class="corner-pip corner-bottom-left"><svg viewBox="0 0 100 100"
+                                            class="shape-svg">
+                                            <polygon points="50,15 15,85 85,85" />
+                                        </svg></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rule-item">
+                        <p><strong>Elements Card:</strong> Wildcard. Can be played on anything. You choose the next
+                            color and shape.</p>
+                        <div class="card-example">
+                            <div class="card elements">
+                                <div class="card-face">
+                                    <div class="card-inner"></div>
+                                    <div class="corner-pip corner-top-right"><svg viewBox="0 0 100 100"
+                                            class="shape-svg">
+                                            <path d="M50 5 L65 35 L95 50 L65 65 L50 95 L35 65 L5 50 L35 35 Z" />
+                                        </svg></div>
+                                    <div class="center-shape"><svg viewBox="0 0 100 100" class="shape-svg">
+                                            <path d="M50 5 L65 35 L95 50 L65 65 L50 95 L35 65 L5 50 L35 35 Z" />
+                                        </svg></div>
+                                    <div class="corner-pip corner-bottom-left"><svg viewBox="0 0 100 100"
+                                            class="shape-svg">
+                                            <path d="M50 5 L65 35 L95 50 L65 65 L50 95 L35 65 L5 50 L35 35 Z" />
+                                        </svg></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="btn-close-rules" class="btn-secondary">CLOSE</button>
+            </div>
+        </section>
+
+        <!-- Elements Choice Modal -->
+        <div id="elements-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>BUILD YOUR CARD</h3>
+                <h4 style="margin-top: 15px; margin-bottom: 8px; font-size: 0.9rem; color: #aaa;">Choose Color</h4>
+                <div class="color-choices">
+                    <button class="btn-color blue" data-color="blue"></button>
+                    <button class="btn-color red" data-color="red"></button>
+                    <button class="btn-color green" data-color="green"></button>
+                    <button class="btn-color purple" data-color="purple"></button>
+                </div>
+                <h4 style="margin-top: 20px; margin-bottom: 8px; font-size: 0.9rem; color: #aaa;">Choose Shape</h4>
+                <div class="shape-choices">
+                    <button class="btn-shape circle" data-shape="circle">
+                        <svg viewBox="0 0 100 100" class="shape-svg">
+                            <circle cx="50" cy="50" r="40" />
+                        </svg>
+                    </button>
+                    <button class="btn-shape square" data-shape="square">
+                        <svg viewBox="0 0 100 100" class="shape-svg">
+                            <rect x="15" y="15" width="70" height="70" />
+                        </svg>
+                    </button>
+                    <button class="btn-shape triangle" data-shape="triangle">
+                        <svg viewBox="0 0 100 100" class="shape-svg">
+                            <polygon points="50,15 15,85 85,85" />
+                        </svg>
+                    </button>
+                    <button class="btn-shape hexagon" data-shape="hexagon">
+                        <svg viewBox="0 0 100 100" class="shape-svg">
+                            <polygon points="50,10 85,30 85,70 50,90 15,70 15,30" />
+                        </svg>
+                    </button>
+                </div>
+                <button id="btn-transform" class="btn-action small hidden" style="margin-top: 25px;">TRANSFORM</button>
+            </div>
+        </div>
+
+        <!-- Pause Menu Modal -->
+        <div id="pause-menu" class="modal hidden">
+            <div class="modal-content">
+                <h2>PAUSED</h2>
+                <div class="stats-container" id="pause-stats">
+                    <!-- Stats injected here -->
+                </div>
+                <div class="pause-actions">
+                    <button id="btn-resume" class="btn-primary">RESUME GAME</button>
+                    <button id="btn-end-game" class="btn-danger">END GAME</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,781 @@
+:root {
+    --bg-color: #0a0a0a;
+    --text-color: #f0f0f0;
+    --accent-blue: #00f0ff;
+    --accent-red: #ff0055;
+    --accent-green: #00ff66;
+    --accent-purple: #bd00ff;
+    --card-width: 100px;
+    --card-height: 140px;
+    --font-main: 'Outfit', sans-serif;
+    --font-title: 'Zen Tokyo Zoo', cursive;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-color);
+    background-image: url('background.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--text-color);
+    font-family: var(--font-main);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+}
+
+.screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.screen.active {
+    opacity: 1;
+    pointer-events: all;
+    z-index: 10;
+}
+
+/* Typography */
+h1.game-title {
+    font-family: var(--font-title);
+    font-size: 4rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple), var(--accent-red), var(--accent-green));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    margin-bottom: 0;
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    letter-spacing: 10px;
+    color: #fff;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+h2 {
+    font-family: var(--font-title);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
+/* Buttons */
+button {
+    font-family: var(--font-main);
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+}
+
+.btn-primary {
+    background: var(--text-color);
+    color: var(--bg-color);
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    border-radius: 2px;
+    margin: 10px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.btn-primary:active {
+    transform: scale(0.95);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text-color);
+    border: 2px solid var(--text-color);
+    padding: 13px 38px;
+    font-size: 1.2rem;
+    border-radius: 2px;
+    margin: 10px;
+}
+
+.btn-secondary:active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-text {
+    background: transparent;
+    color: #888;
+    text-decoration: none;
+    font-size: 1rem;
+    display: inline-block;
+    border: none;
+}
+
+.copyright {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #888 !important;
+    font-size: 0.75rem;
+}
+
+.btn-icon {
+    background: #111;
+    color: #fff;
+    border: 2px solid #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    z-index: 100;
+    /* Ensure it's clickable */
+}
+
+.btn-icon:hover {
+    background: #fff;
+    color: #000;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+    transform: rotate(90deg);
+}
+
+.btn-action {
+    background: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 30px;
+    padding: 12px 40px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.btn-action:hover {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Player Setup */
+.player-count-selector {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.btn-count {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    font-size: 1.5rem;
+    border: 2px solid transparent;
+}
+
+.btn-count:hover,
+.btn-count.selected {
+    border-color: var(--accent-blue);
+    background: rgba(0, 240, 255, 0.2);
+    box-shadow: 0 0 15px var(--accent-blue);
+}
+
+/* Game Board */
+#game-board {
+    justify-content: flex-start;
+    padding-top: 20px;
+}
+
+.game-header {
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.player-info {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.play-area {
+    flex-grow: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.deck-area {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 20px;
+}
+
+.card-stack {
+    width: var(--card-width);
+    height: var(--card-height);
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+#draw-pile {
+    cursor: pointer;
+}
+
+#draw-pile:active {
+    transform: scale(0.98);
+}
+
+.hand-area {
+    width: 100%;
+    height: 220px;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    padding: 0 20px;
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hand-scroll {
+    display: flex;
+    gap: -40px;
+    /* Overlap cards */
+    padding: 10px 0;
+    min-width: 100%;
+    justify-content: center;
+}
+
+/* Card Styling */
+.card {
+    width: var(--card-width);
+    height: var(--card-height);
+    background: #fff;
+    border-radius: 8px;
+    position: relative;
+    transition: transform 0.2s ease, margin 0.2s ease;
+    flex-shrink: 0;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hand-scroll .card:hover {
+    transform: translateY(-20px) scale(1.1);
+    z-index: 100;
+    margin: 0 15px;
+}
+
+/* Card Back */
+.card-back {
+    width: 100%;
+    height: 100%;
+    background: #111;
+    border-radius: 8px;
+    background-image: url('card_back.png');
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-back::after {
+    content: '';
+    /* Content is in the image now */
+}
+
+/* Card Face Structure */
+.card-face {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 8px solid rgba(255, 255, 255, 0.2);
+    /* Inner frame effect */
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
+    background: currentColor;
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* Pattern for regular cards (Waves/Geometric approximation) */
+    background-image:
+        repeating-radial-gradient(circle at 0 0, transparent 0, transparent 9px, rgba(0, 0, 0, 0.05) 10px, transparent 11px),
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.05) 0, rgba(255, 255, 255, 0.05) 1px, transparent 1px, transparent 10px);
+    opacity: 1;
+}
+
+/* SA Logo */
+.card-face::after {
+    content: 'SA';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.6rem;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.3);
+    font-family: sans-serif;
+    letter-spacing: 1px;
+}
+
+/* Center Shape */
+.center-shape {
+    width: 55px;
+    height: 55px;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Corner Pips */
+.corner-pip {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+}
+
+.corner-top-right {
+    top: 8px;
+    right: 8px;
+}
+
+.corner-bottom-left {
+    bottom: 8px;
+    left: 8px;
+}
+
+/* Shape Definitions */
+/* SVG Styles */
+.shape-svg {
+    width: 100%;
+    height: 100%;
+    fill: #f0f8ff;
+    /* White/Light fill */
+    stroke: #2c3e50;
+    /* Dark outline */
+    stroke-width: 6;
+    vector-effect: non-scaling-stroke;
+}
+
+.center-shape .shape-svg {
+    stroke-width: 4;
+}
+
+.corner-pip .shape-svg {
+    stroke-width: 8;
+    fill: transparent;
+    /* Corner pips are outline only in reference? Or filled? 
+                        Ref image shows corner pips are outline only for Blue Circle card? 
+                        Wait, looking at Blue Circle image: Top Right is outline circle. 
+                        Looking at White Triangle image: Top Right is outline triangle. 
+                        Looking at Elements image: Top Right is outline star. 
+                        */
+    fill: transparent;
+    stroke: #2c3e50;
+}
+
+/* Colors */
+.card.blue {
+    color: #5bc0eb;
+}
+
+/* Lighter blue to match image */
+.card.red {
+    color: #ef476f;
+}
+
+.card.green {
+    color: #06d6a0;
+}
+
+.card.purple {
+    color: #9d4edd;
+}
+
+.card.white {
+    color: #f8f9fa;
+}
+
+/* White Card Specifics */
+.card.white .card-inner {
+    background-image:
+        repeating-linear-gradient(60deg, rgba(0, 0, 0, 0.03) 0, rgba(0, 0, 0, 0.03) 1px, transparent 1px, transparent 15px);
+}
+
+.card.white .card-face {
+    border-color: #fff;
+    border: 8px solid #e9ecef;
+}
+
+/* Elements Card Specifics */
+.card.elements {
+    color: #1a1a1a;
+    border-color: #444;
+}
+
+.card.elements .card-face {
+    border-color: #333;
+    background: #1a1a1a;
+}
+
+.card.elements .card-inner {
+    background-image:
+        repeating-linear-gradient(45deg, #222 0, #222 10px, #111 10px, #111 20px);
+}
+
+.card.elements .shape-svg {
+    stroke: #fff;
+    fill: #fff;
+    filter: drop-shadow(0 0 5px #fff) drop-shadow(0 0 10px #fff);
+}
+
+.card.elements .corner-pip .shape-svg {
+    fill: transparent;
+    stroke: #fff;
+    filter: none;
+}
+
+.card.elements .card-face::after {
+    color: #555;
+}
+
+/* Single Card Special Symbols */
+.no-shape-symbol {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid #2c3e50;
+    position: relative;
+    background: transparent;
+}
+
+.no-shape-symbol::after,
+.no-shape-symbol::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 3px;
+    background: #2c3e50;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.no-shape-symbol::before {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Elements Card */
+.card.elements .card-inner {
+    background: linear-gradient(135deg, #333, #000);
+    opacity: 1;
+}
+
+.card.elements {
+    border-color: #fff;
+}
+
+.card.elements .shape-svg {
+    fill: transparent;
+    stroke: #fff;
+    stroke-dasharray: 5, 5;
+    animation: spin-slow 10s linear infinite;
+}
+
+@keyframes spin-slow {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Modals & UI updates */
+.message-area {
+    font-family: var(--font-title);
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+/* Modals */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: #222;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #444;
+    text-align: center;
+}
+
+.color-choices,
+.shape-choices {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+    justify-content: center;
+}
+
+.btn-color {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-color.blue {
+    background: var(--accent-blue);
+}
+
+.btn-color.red {
+    background: var(--accent-red);
+}
+
+.btn-color.green {
+    background: var(--accent-green);
+}
+
+.btn-color.purple {
+    background: var(--accent-purple);
+}
+
+.btn-shape {
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border: 2px solid #555;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.btn-shape:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-shape .shape-svg {
+    fill: transparent;
+    stroke: #fff;
+    stroke-width: 8px;
+}
+
+.btn-color.selected,
+.btn-shape.selected {
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    transform: scale(1.1);
+}
+
+.btn-action.small {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    border-width: 1px;
+}
+
+.message-area {
+    height: 30px;
+    margin-top: 20px;
+    color: #aaa;
+    font-style: italic;
+}
+
+/* Rules */
+.rules-content {
+    background: rgba(20, 20, 20, 0.95);
+    padding: 40px;
+    max-width: 600px;
+    border: 1px solid #444;
+    border-radius: 4px;
+}
+
+.rules-text {
+    text-align: left;
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+.rules-text p {
+    margin-bottom: 10px;
+}
+
+.rule-item {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+
+.card-example {
+    transform: scale(0.6);
+    transform-origin: left top;
+    margin: 10px 0;
+    height: 100px;
+    width: 120px;
+    display: block;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+    :root {
+        --card-width: 80px;
+        --card-height: 112px;
+    }
+
+    h1.game-title {
+        font-size: 3rem;
+    }
+
+    .hand-scroll {
+        justify-content: flex-start;
+    }
+}
+
+/* Pause Menu */
+#pause-menu .modal-content {
+    min-width: 300px;
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid #444;
+}
+
+.stats-container {
+    margin: 20px 0;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 4px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-row:last-child {
+    border-bottom: none;
+}
+
+.stat-player {
+    font-weight: bold;
+    color: var(--accent-blue);
+}
+
+.stat-count {
+    color: #fff;
+}
+
+.pause-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-danger {
+    background: transparent;
+    border: 1px solid var(--accent-red);
+    color: var(--accent-red);
+    padding: 10px 20px;
+    margin: 5px;
+    font-family: var(--font-main);
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-danger:hover {
+    background: var(--accent-red);
+    color: #fff;
+}
