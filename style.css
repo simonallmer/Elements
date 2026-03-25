@@ -5,8 +5,9 @@
     --accent-red: #ff0055;
     --accent-green: #00ff66;
     --accent-purple: #bd00ff;
-    --card-width: 100px;
-    --card-height: 140px;
+    --card-width: 120px;
+    --card-height: 168px;
+    --hand-height: 240px;
     --font-main: 'Outfit', sans-serif;
     --font-title: 'Zen Tokyo Zoo', cursive;
 }
@@ -53,8 +54,10 @@ body {
     align-items: center;
     transition: opacity 0.5s ease;
     z-index: 10;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    overflow-y: auto;
+    padding: 20px 0;
 }
 
 .screen.hidden {
@@ -311,7 +314,8 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    z-index: 20;
 }
 
 .player-info {
@@ -320,9 +324,49 @@ button {
 }
 
 #player-circle {
-    width: 80px;
-    height: 80px;
-    opacity: 0.7;
+    width: 100px;
+    height: 100px;
+    opacity: 0.9;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.opponents-stats {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    padding: 10px 20px;
+    z-index: 20;
+    margin-top: -10px;
+}
+
+.opponent-row {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    padding: 6px 15px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #fff;
+    white-space: nowrap;
+}
+
+.opponent-name {
+    font-weight: 500;
+    color: #aaa;
+}
+
+.opponent-cards {
+    font-weight: 700;
 }
 
 .play-area {
@@ -359,14 +403,15 @@ button {
 
 .hand-area {
     width: 100%;
-    height: 220px;
+    height: var(--hand-height);
     background: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
     overflow-x: auto;
     padding: 0 20px;
-    backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .hand-scroll {
@@ -514,7 +559,6 @@ button {
     position: fixed;
     transition: top 0.5s ease, left 0.5s ease, transform 0.5s ease, opacity 0.5s ease;
     z-index: 200;
-}
 }
 
 .center-shape .shape-svg {
@@ -680,6 +724,8 @@ button {
     border-radius: 10px;
     border: 1px solid #444;
     text-align: center;
+    max-height: 95vh;
+    overflow-y: auto;
 }
 
 .color-choices,
@@ -817,18 +863,120 @@ button {
 }
 
 /* Mobile adjustments */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     :root {
-        --card-width: 80px;
-        --card-height: 112px;
+        --card-width: 85px;
+        --card-height: 120px;
+        --hand-height: 180px;
     }
 
     h1.game-title {
-        font-size: 3rem;
+        font-size: 2.8rem;
+    }
+
+    .subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+
+    .menu-buttons {
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+
+    .game-header {
+        padding: 10px 15px;
+        margin-bottom: 5px;
+    }
+
+    #player-circle {
+        width: 60px;
+        height: 60px;
+    }
+
+    .player-info {
+        font-size: 1rem;
+    }
+
+    .opponents-stats {
+        gap: 8px;
+        padding: 5px 15px;
+        margin-top: 0;
+    }
+
+    .opponent-row {
+        padding: 4px 10px;
+        font-size: 0.8rem;
+    }
+
+    .play-area {
+        gap: 10px;
+    }
+
+    .deck-area {
+        gap: 20px;
+        margin-bottom: 10px;
+    }
+
+    .hand-area {
+        height: var(--hand-height);
+        padding: 0 10px;
     }
 
     .hand-scroll {
-        justify-content: flex-start;
+        gap: -45px;
+    }
+
+    .controls-area {
+        padding: 10px 15px;
+        margin-top: 10px;
+    }
+
+    .btn-action {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    .rules-content {
+        padding: 20px;
+        width: 95%;
+        margin: 10px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --card-width: 70px;
+        --card-height: 98px;
+    }
+
+    h1.game-title {
+        font-size: 2.2rem;
+    }
+
+    .player-count-selector {
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .btn-count {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
     }
 }
 
