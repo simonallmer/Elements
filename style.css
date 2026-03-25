@@ -526,16 +526,19 @@ button {
 
 /* SA Logo */
 .card-face::after {
-    content: 'SA';
+    content: '';
     position: absolute;
     bottom: calc(var(--pip-offset) / 2);
     left: 50%;
     transform: translateX(-50%);
-    font-size: var(--logo-font);
-    font-weight: bold;
-    color: rgba(0, 0, 0, 0.3);
-    font-family: sans-serif;
-    letter-spacing: 1px;
+    width: calc(var(--logo-font) * 2); /* slightly larger for logo aspect ratio/readability */
+    height: var(--logo-font);
+    background-image: url('Logos/SALogoBig.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: brightness(0); /* Force black */
+    opacity: 0.3; /* subtle */
 }
 
 /* Center Shape */
@@ -673,7 +676,8 @@ button {
 }
 
 .card.elements .card-face::after {
-    color: #555;
+    filter: brightness(0) invert(1); /* Off-white for dark cards */
+    opacity: 0.2;
 }
 
 /* Single Card Special Symbols */
