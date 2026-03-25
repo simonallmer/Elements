@@ -7,6 +7,12 @@
     --accent-purple: #bd00ff;
     --card-width: 120px;
     --card-height: 168px;
+    --card-border: 8px;
+    --shape-size: 55px;
+    --pip-size: 22px;
+    --pip-offset: 8px;
+    --stroke-width: 3px;
+    --logo-font: 0.6rem;
     --hand-height: 240px;
     --font-main: 'Outfit', sans-serif;
     --font-title: 'Zen Tokyo Zoo', cursive;
@@ -499,7 +505,7 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 8px solid rgba(255, 255, 255, 0.2);
+    border: var(--card-border) solid rgba(255, 255, 255, 0.2);
     /* Inner frame effect */
     box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
     background: currentColor;
@@ -522,10 +528,10 @@ button {
 .card-face::after {
     content: 'SA';
     position: absolute;
-    bottom: 4px;
+    bottom: calc(var(--pip-offset) / 2);
     left: 50%;
     transform: translateX(-50%);
-    font-size: 0.6rem;
+    font-size: var(--logo-font);
     font-weight: bold;
     color: rgba(0, 0, 0, 0.3);
     font-family: sans-serif;
@@ -534,8 +540,8 @@ button {
 
 /* Center Shape */
 .center-shape {
-    width: 55px;
-    height: 55px;
+    width: var(--shape-size);
+    height: var(--shape-size);
     z-index: 2;
     display: flex;
     justify-content: center;
@@ -546,8 +552,8 @@ button {
 /* Corner Pips */
 .corner-pip {
     position: absolute;
-    width: 22px;
-    height: 22px;
+    width: var(--pip-size);
+    height: var(--pip-size);
     z-index: 2;
     display: flex;
     justify-content: center;
@@ -556,13 +562,13 @@ button {
 }
 
 .corner-top-right {
-    top: 8px;
-    right: 8px;
+    top: var(--pip-offset);
+    right: var(--pip-offset);
 }
 
 .corner-bottom-left {
-    bottom: 8px;
-    left: 8px;
+    bottom: var(--pip-offset);
+    left: var(--pip-offset);
 }
 
 /* Shape Definitions */
@@ -575,7 +581,6 @@ button {
     stroke: #2c3e50;
     /* Dark outline */
     stroke-width: 6;
-    vector-effect: non-scaling-stroke;
 }
 
 /* card flight animation for computer's play */
@@ -636,7 +641,7 @@ button {
 
 .card.white .card-face {
     border-color: #fff;
-    border: 8px solid #e9ecef;
+    border: var(--card-border) solid #e9ecef;
 }
 
 /* Elements Card Specifics */
@@ -676,7 +681,7 @@ button {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 3px solid #2c3e50;
+    border: var(--stroke-width) solid #2c3e50;
     position: relative;
     background: transparent;
 }
@@ -688,7 +693,7 @@ button {
     top: 50%;
     left: 50%;
     width: 80%;
-    height: 3px;
+    height: var(--stroke-width);
     background: #2c3e50;
     transform: translate(-50%, -50%) rotate(45deg);
 }
@@ -895,6 +900,12 @@ button {
     :root {
         --card-width: 85px;
         --card-height: 120px;
+        --card-border: 6px;
+        --shape-size: 38px;
+        --pip-size: 15px;
+        --pip-offset: 6px;
+        --stroke-width: 2px;
+        --logo-font: 0.5rem;
         --hand-height: 180px;
     }
 
@@ -989,6 +1000,12 @@ button {
     :root {
         --card-width: 70px;
         --card-height: 98px;
+        --card-border: 4px;
+        --shape-size: 32px;
+        --pip-size: 13px;
+        --pip-offset: 4px;
+        --stroke-width: 1.5px;
+        --logo-font: 0.45rem;
     }
 
     h1.game-title {
@@ -1017,6 +1034,12 @@ button {
     :root {
         --card-width: 55px;
         --card-height: 77px;
+        --card-border: 3px;
+        --shape-size: 25px;
+        --pip-size: 10px;
+        --pip-offset: 3px;
+        --stroke-width: 1px;
+        --logo-font: 0.4rem;
         --hand-height: 100px;
     }
 
