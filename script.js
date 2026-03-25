@@ -122,18 +122,15 @@ function init() {
 
     ui.passDeviceBtn.addEventListener('click', startTurn);
 
-    // Player Count Selection
-    document.querySelectorAll('.player-count-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.player-count-btn').forEach(b => b.classList.remove('selected'));
-            e.target.classList.add('selected');
-        });
-    });
-
-    // Player Count Buttons (now used to configure types)
+    // Player Count Buttons
     document.querySelectorAll('.btn-count').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            const count = parseInt(e.target.dataset.count);
+            // Remove 'selected' class from all buttons
+            document.querySelectorAll('.btn-count').forEach(b => b.classList.remove('selected'));
+            // Add 'selected' class to the clicked button
+            e.currentTarget.classList.add('selected');
+
+            const count = parseInt(e.currentTarget.dataset.count);
             selectedPlayerCount = count;
             // reset previous types
             selectedPlayerTypes = Array(count).fill('human');
@@ -174,10 +171,13 @@ function init() {
         // clear any configuration UI
         selectedPlayerCount = null;
         selectedPlayerTypes = [];
+        // Deselect all count buttons
+        document.querySelectorAll('.btn-count').forEach(btn => btn.classList.remove('selected'));
         const config = document.getElementById('player-type-config');
         config.classList.add('hidden');
         config.innerHTML = '';
         document.getElementById('btn-begin-game').disabled = true;
+        document.getElementById('btn-reset-names').classList.add('hidden');
     });
 
     // Elements Modal Selection Logic

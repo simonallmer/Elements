@@ -281,11 +281,17 @@ button {
     border: 2px solid transparent;
 }
 
-.btn-count:hover,
-.btn-count.selected {
+.btn-count:hover {
     border-color: var(--accent-blue);
     background: rgba(0, 240, 255, 0.2);
     box-shadow: 0 0 15px var(--accent-blue);
+}
+
+.btn-count.selected {
+    border: 3px solid #fff;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
 }
 
 /* human/computer selector rows */
