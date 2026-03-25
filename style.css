@@ -30,6 +30,7 @@ body {
     font-family: var(--font-main);
     overflow: hidden;
     height: 100vh;
+    height: 100dvh;
     width: 100vw;
 }
 
@@ -150,6 +151,10 @@ button {
     font-size: 1.2rem;
     border-radius: 2px;
     margin: 10px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .btn-secondary:active {
@@ -279,23 +284,28 @@ button {
 }
 
 .btn-toggle-type {
-    background: transparent;
-    color: var(--text-color);
-    border: 2px solid var(--text-color);
+    background: rgba(255, 255, 255, 0.05);
+    color: #888;
+    border: 1px solid #444;
     padding: 8px 16px;
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
 }
 
 .btn-toggle-type.active {
     background: var(--accent-blue);
     color: var(--bg-color);
+    border-color: var(--accent-blue);
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
 }
 
-.btn-toggle-type:hover {
+.btn-toggle-type:hover:not(.active) {
     background: rgba(255,255,255,0.1);
+    color: #fff;
+    border-color: #666;
 }
 
 #btn-begin-game {
@@ -408,19 +418,20 @@ button {
     display: flex;
     align-items: center;
     overflow-x: auto;
-    padding: 0 20px;
+    padding: 0 40px;
     backdrop-filter: blur(15px);
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    -webkit-overflow-scrolling: touch;
 }
 
 .hand-scroll {
     display: flex;
     gap: -40px;
     /* Overlap cards */
-    padding: 10px 0;
-    min-width: 100%;
-    justify-content: center;
+    padding: 10px 20px;
+    min-width: max-content;
+    justify-content: flex-start;
 }
 
 /* Card Styling */
@@ -977,6 +988,77 @@ button {
         width: 50px;
         height: 50px;
         font-size: 1.2rem;
+    }
+
+    .hand-area {
+        padding: 0 20px;
+    }
+}
+
+/* Landscape Mode Adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+    :root {
+        --card-width: 60px;
+        --card-height: 84px;
+        --hand-height: 120px;
+    }
+
+    .game-header {
+        margin-bottom: 0;
+        padding: 5px 20px;
+    }
+
+    #player-circle {
+        width: 40px;
+        height: 40px;
+        display: none; /* Hide circle to save vertical space */
+    }
+
+    .play-area {
+        flex-direction: row;
+        gap: 30px;
+    }
+
+    .deck-area {
+        margin-bottom: 0;
+        gap: 20px;
+    }
+
+    .opponents-stats {
+        position: absolute;
+        top: 10px;
+        right: 80px;
+        width: auto;
+        flex-direction: column;
+        gap: 4px;
+        padding: 0;
+    }
+
+    .opponent-row {
+        padding: 2px 8px;
+        font-size: 0.7rem;
+    }
+
+    .hand-area {
+        height: var(--hand-height);
+    }
+
+    .controls-area {
+        margin-top: 0;
+        padding: 5px 20px;
+    }
+
+    .screen {
+        padding: 10px 0;
+    }
+
+    h1.game-title {
+        font-size: 2rem;
+    }
+
+    .subtitle {
+        margin-bottom: 1rem;
+        font-size: 1rem;
     }
 }
 
