@@ -69,11 +69,12 @@ body {
 #rules-screen,
 #pause-menu {
     justify-content: center;
+}
+
 .screen.hidden {
     opacity: 0;
     pointer-events: none;
     z-index: -1;
-}
 }
 
 .screen.active {
@@ -150,6 +151,13 @@ button {
 
 .btn-primary:active {
     transform: scale(0.95);
+}
+
+.btn-primary:disabled {
+    opacity: 0.3;
+    pointer-events: none;
+    filter: grayscale(1);
+    box-shadow: none;
 }
 
 .btn-secondary {

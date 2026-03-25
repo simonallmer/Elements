@@ -145,8 +145,8 @@ function init() {
             }
             renderPlayerTypeSelectors(count);
             document.getElementById('btn-reset-names').classList.remove('hidden');
-            // show begin button
-            document.getElementById('btn-begin-game').classList.remove('hidden');
+            // enable begin button
+            document.getElementById('btn-begin-game').disabled = false;
         });
     });
 
@@ -177,7 +177,7 @@ function init() {
         const config = document.getElementById('player-type-config');
         config.classList.add('hidden');
         config.innerHTML = '';
-        document.getElementById('btn-begin-game').classList.add('hidden');
+        document.getElementById('btn-begin-game').disabled = true;
     });
 
     // Elements Modal Selection Logic
@@ -218,6 +218,9 @@ function init() {
             resolveElementsCard(state.tempElementsChoice.color, state.tempElementsChoice.shape);
         }
     });
+
+    // Start at menu to initialize state
+    showScreen('menu');
 }
 
 // create toggle rows for each player slot when count is chosen
