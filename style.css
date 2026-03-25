@@ -51,20 +51,29 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* Better for scrolling content than center */
     align-items: center;
     transition: opacity 0.5s ease;
     z-index: 10;
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(8px);
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 20px 0;
+    -webkit-overflow-scrolling: touch;
 }
 
+#main-menu, 
+#player-setup, 
+#pass-device, 
+#rules-screen,
+#pause-menu {
+    justify-content: center;
 .screen.hidden {
     opacity: 0;
     pointer-events: none;
     z-index: -1;
+}
 }
 
 .screen.active {
@@ -998,9 +1007,9 @@ button {
 /* Landscape Mode Adjustments */
 @media (orientation: landscape) and (max-height: 500px) {
     :root {
-        --card-width: 60px;
-        --card-height: 84px;
-        --hand-height: 120px;
+        --card-width: 55px;
+        --card-height: 77px;
+        --hand-height: 100px;
     }
 
     .game-header {
@@ -1009,43 +1018,46 @@ button {
     }
 
     #player-circle {
-        width: 40px;
-        height: 40px;
-        display: none; /* Hide circle to save vertical space */
+        display: none;
     }
 
     .play-area {
         flex-direction: row;
         gap: 30px;
+        flex-shrink: 0;
+        min-height: 120px;
     }
 
     .deck-area {
         margin-bottom: 0;
-        gap: 20px;
+        gap: 15px;
+    }
+
+    .message-area {
+        font-size: 1rem;
+        height: auto;
+        margin-top: 10px;
     }
 
     .opponents-stats {
-        position: absolute;
-        top: 10px;
-        right: 80px;
-        width: auto;
-        flex-direction: column;
-        gap: 4px;
-        padding: 0;
-    }
-
-    .opponent-row {
-        padding: 2px 8px;
-        font-size: 0.7rem;
+        position: static; /* Move back to normal flow to allow scrolling if needed */
+        width: 100%;
+        margin-top: 5px;
+        padding: 0 15px;
+        flex-wrap: wrap;
     }
 
     .hand-area {
         height: var(--hand-height);
+        flex-shrink: 0;
     }
 
     .controls-area {
-        margin-top: 0;
+        margin-top: 10px;
+        margin-bottom: 20px; /* Space for scrolling at bottom */
         padding: 5px 20px;
+        justify-content: center;
+        gap: 20px;
     }
 
     .screen {
@@ -1053,12 +1065,12 @@ button {
     }
 
     h1.game-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 
     .subtitle {
         margin-bottom: 1rem;
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 }
 
